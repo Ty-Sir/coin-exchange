@@ -1,33 +1,71 @@
 import React from 'react';
-import './App.css';
-import Coin from './components/Coin/Coin';
+import CoinList from './components/CoinList/CoinList';
 import AccountBalance from './components/AccountBalance/AccountBalance';
+import CoinExchangeHeader from './components/CoinExchangeHeader/CoinExchangeHeader';
+import styled from 'styled-components';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>
-          Coin Exchange
-        </h1>
-      </header>
-      <AccountBalance amount={10000}/>
-      <table className="coin-table">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Ticker</th>
-					<th>Price</th> 
-				</tr>
-			</thead>
-			<tbody>
-        <Coin name="Bitcoin" ticker="BTC" price={39000} />
-				<Coin name="Ethereum" ticker="ETH" price={3000} />
-        <Coin name="Tether" ticker="USDT" price={1} />
-      </tbody>
-		</table>
-    </div>
-  );
+const Div = styled.div`
+  text-align: center;
+  background-color: rgb(243, 235, 235);
+  border-radius: 0 0 15px 15px;
+`;
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      balance:10000,
+      coinData: [
+        {
+          name: 'Bitcoin',
+          ticker: 'BTC',
+          price: 33000
+        },
+        {
+          name: 'Ethereum',
+          ticker: 'ETH',
+          price: 2800
+        },
+        {
+          name: 'USDC',
+          ticker: 'USDC',
+          price: 1
+        },
+        {
+          name: 'Augury Finance',
+          ticker: 'OMEN',
+          price: 0.44
+        },
+      ]
+    }
+    this.handleRefresh = this.handleRefresh.bind(this);
+  }
+
+  handleRefresh(valueChangeTicker){
+    const newCoinData = this.state.coinData.map(({ticker, name, price}) => {
+      let newPrice = price;
+      if(valueChangeTicker === ticker){
+        const randomPercentage = .995 + Math.random() * .01;
+        newPrice = (newPrice * randomPercentage).toFixed(2);
+      }
+      return {
+        ticker,
+        name,
+        price: newPrice
+      }
+    });
+     this.setState({coinData: newCoinData})
+  }
+
+  render(){
+    return (
+      <Div>
+        <CoinExchangeHeader/>
+        <AccountBalance amount={this.state.balance}/>
+        <CoinList coinData={this.state.coinData} handleRefresh={this.handleRefresh}/>
+      </Div>
+    );
+  }
 }
 
 export default App;
