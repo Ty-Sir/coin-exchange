@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import './Coin.css';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+
+const Td = styled.td`
+	border: 1px solid black;
+	width: 25vh;
+`;
 
 export default class Coin extends Component {
 	constructor(props){
@@ -10,20 +16,6 @@ export default class Coin extends Component {
 		}
 		this.handleClick = this.handleClick.bind(this);
 	}
-	// UPDATES PRICE AUTOMATICALLY -- CURRENTLY HAVE A REFRESH BUTTON INSTEAD
-	// componentDidMount() {
-	// 	const callback = () => {
-	// 		//set the state to a new random value
-	// 		const randomPercentage = .995 + Math.random() * .01;
-
-	// 		this.setState((oldState) => {
-	// 			return {
-	// 				price: (oldState.price * randomPercentage).toFixed(2)
-	// 			};
-	// 		});
-	// 	}
-	// 	setInterval(callback, 2000);
-	// }
 
 	handleClick(e){
 		e.preventDefault();
@@ -39,15 +31,15 @@ export default class Coin extends Component {
 
 	render() {
 		return(
-			<tr className="coin-row">
-				<td>{this.props.name}</td>
-				<td>{this.props.ticker}</td>
-				<td>${this.state.price}</td>
-				<td>
+			<tr>
+				<Td>{this.props.name}</Td>
+				<Td>{this.props.ticker}</Td>
+				<Td>${this.state.price}</Td>
+				<Td>
 					<form action="#" method="POST">
 						<button onClick={this.handleClick}>Refresh</button>
 					</form>
-				</td>
+				</Td>
 			</tr>
 		);
 	}
