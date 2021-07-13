@@ -11,58 +11,63 @@ const Div = styled.div`
 `;
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      balance:10000,
-      coinData: [
-        {
-          name: 'Bitcoin',
-          ticker: 'BTC',
-          price: 33000
-        },
-        {
-          name: 'Ethereum',
-          ticker: 'ETH',
-          price: 2800
-        },
-        {
-          name: 'USDC',
-          ticker: 'USDC',
-          price: 1
-        },
-        {
-          name: 'Augury Finance',
-          ticker: 'OMEN',
-          price: 0.44
-        },
-      ]
-    }
-    this.handleRefresh = this.handleRefresh.bind(this);
+  state = {
+    balance: 10000,
+    showBalance: true,
+    coinData: [
+      {
+        name: 'Bitcoin',
+        ticker: 'BTC',
+        balance: 1.5,
+        price: 33000
+      },
+      {
+        name: 'Ethereum',
+        ticker: 'ETH',
+        balance: 21,
+        price: 2800
+      },
+      {
+        name: 'USDC',
+        ticker: 'USDC',
+        balance: 7500,
+        price: 1
+      },
+      {
+        name: 'Augury Finance',
+        ticker: 'OMEN',
+        balance: 18234,
+        price: 0.44
+      },
+    ]
   }
 
-  handleRefresh(valueChangeTicker){
-    const newCoinData = this.state.coinData.map(({ticker, name, price}) => {
-      let newPrice = price;
-      if(valueChangeTicker === ticker){
+  handleRefresh = (valueChangeTicker) => {
+    const newCoinData = this.state.coinData.map((values) => {
+      let newValues = {...values};
+      if(valueChangeTicker === newValues.ticker){
         const randomPercentage = .995 + Math.random() * .01;
-        newPrice = (newPrice * randomPercentage).toFixed(2);
+        newValues.price *= randomPercentage;
       }
-      return {
-        ticker,
-        name,
-        price: newPrice
-      }
+      return newValues;
     });
-     this.setState({coinData: newCoinData})
+     this.setState({coinData: newCoinData});
+  }
+
+  toggleBalance = () => {
+    this.setState({showBalance: !this.state.showBalance});
   }
 
   render(){
     return (
       <Div>
         <CoinExchangeHeader/>
-        <AccountBalance amount={this.state.balance}/>
-        <CoinList coinData={this.state.coinData} handleRefresh={this.handleRefresh}/>
+        <AccountBalance amount={this.state.balance} 
+            showBalance={this.state.showBalance}
+            toggleBalance={this.toggleBalance}/>
+        <CoinList coinData={this.state.coinData} 
+            handleRefresh={this.handleRefresh}
+            showBalance={this.state.showBalance}/>
       </Div>
     );
   }

@@ -12,30 +12,21 @@ const Td = styled.td`
 `;
 
 export default class Coin extends Component {
-	constructor(props){
-		super(props)
-		this.handleClick = this.handleClick.bind(this);
-	}
-
-	handleClick(e){
+	handleClick = (e) => {
 		e.preventDefault();
 
 		this.props.handleRefresh(this.props.ticker);
-		// const randomPercentage = .995 + Math.random() * .01;
-
-		// this.setState((oldState) => {
-		// 	return {
-		// 		price: (oldState.price * randomPercentage).toFixed(2)
-		// 	};
-		// });
 	}
 
 	render() {
+		const balance = this.props.showBalance ? <Td>{this.props.balance}</Td> : null;
+		
 		return(
 			<tr>
 				<Td>{this.props.name}</Td>
 				<Td>{this.props.ticker}</Td>
 				<Td>${this.props.price}</Td>
+				{balance}
 				<Td>
 					<form action="#" method="POST">
 						<button onClick={this.handleClick}>Refresh</button>
