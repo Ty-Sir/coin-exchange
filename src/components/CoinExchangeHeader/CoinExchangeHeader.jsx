@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const Header = styled.header`
@@ -14,14 +14,12 @@ const Header = styled.header`
 	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 `;
 
-export default class CoinExchangeHeader extends Component {
-	render() {
-		return (
-			<Header>
-				<h1>
-					Coin Exchange
-				</h1>
-			</Header>
-		)
-	}
+export default function CoinExchangeHeader(props) {
+	return (
+		<Header>
+			<h1>
+				Coin Exchange
+			</h1>
+		</Header>
+	)
 }
